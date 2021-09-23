@@ -1,0 +1,11 @@
+    1  mkdir worksheet4
+    2  cd worksheet4
+    3  script ws4.txt
+    4  cd ..
+    5  cd worksheet4
+    6  ls
+    7  perl -pe 's/\x1b\[[0-9;]*[mG]//g' ws4.txt > ws4.txt.clean
+    8  tr -cd '\11\12\15\40-\176' < ws4.txt.clean > ws4.txt.clean2
+    9  sed -i "s///g" ws4.txt.clean2
+   10  vi ws4.txt.clean2
+   11  history > cmds.log

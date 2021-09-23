@@ -1,0 +1,59 @@
+Script started on 2021-09-22 23:03:10+00:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+
+1. Create CUSTOMERS and PRODUCTS directories
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ mkdir CUSTOMERS
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ mkdir PRODUCTS
+
+2. I picked the top 3 customers who wrote the most reviews, and saved each customer's helpfulness scores in a CUSTOMER_ID.txt
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "    50122160        " | cut -f9 > CUSTOMERS/50122160.txt
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ ls CUSTOMERS/
+50122160.txt
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ ls -l CUSTOMERS/
+total 48
+-rw-rw-r-- 1 yehia yehia 47729 Sep 22 23:05 50122160.txt
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "50732546" | cut -f9 > CUSTOMERS/50732546.txt        
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "52615377" | cut -f9 > CUSTOMERS/52615377.txt
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ ls -l CUSTOMERS/
+total 80
+-rw-rw-r-- 1 yehia yehia 47729 Sep 22 23:05 50122160.txt
+-rw-rw-r-- 1 yehia yehia 21515 Sep 22 23:08 50732546.txt
+-rw-rw-r-- 1 yehia yehia  6911 Sep 22 23:09 52615377.txt
+ 
+3. I picked the top 3 products that had the most reviews, and saved each product's helpfulness scores in a PRODUCT_ID.txt 
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "043935806X" | cut -f9 > PRODUCTS/043935806X.txt      
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "0439139597" | cut -f9 > PRODUCTS/0439139597.txt      
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cat ../amazon_reviews_us_Books_v1_02.tsv | grep "0525947647" | cut -f9 > PRODUCTS/0525947647.txt      
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ ls -l PRODUCTS/
+total 28
+-rw-rw-r-- 1 yehia yehia 7599 Sep 22 23:12 0439139597.txt
+-rw-rw-r-- 1 yehia yehia 9397 Sep 22 23:11 043935806X.txt
+-rw-rw-r-- 1 yehia yehia 6384 Sep 22 23:12 0525947647.txt
+
+4. I moved to the CUSTOMERS directory that has the text files of the customers only, I created a for loop that iterates among the files, and for each file, it calculates the mean and the variance and outputs the file name, mean, and variance each on a separate line.
+]0;yehia@f6linuxA9: ~/worksheet4yehia@f6linuxA9:~/worksheet4$ cd CUSTOMERS/
+]0;yehia@f6linuxA9: ~/worksheet4/CUSTOMERSyehia@f6linuxA9:~/worksheet4/CUSTOMERS$for f in *.txt; do echo $f;((sum = 0)); ((count = 0)); ((var = 0)); for num in `cat $f`; do sum=$(echo $sum+$num | bc); ((count++)); done ; mean=$(echo "scale=2; $sum/$count" | bc); echo "mean = " $mean; for num in `cat $f`; do var=$(echo $var+($num-$mean)^2 | bc); done ; variance=$(echo "scale=2; $var/$count" | bc); echo "variance = " $variance; done
+50122160.txt
+mean =  6.12
+variance =  110.71
+50732546.txt
+mean =  5.85
+variance =  62.58
+52615377.txt
+mean =  28.08
+variance =  3979.03
+
+5. I followed the same procedure in the PRODUCTS directory
+]0;yehia@f6linuxA9: ~/worksheet4/CUSTOMERSyehia@f6linuxA9:~/worksheet4/CUSTOMERS$ cd ../PRODUCTS/
+]0;yehia@f6linuxA9: ~/worksheet4/PRODUCTSyehia@f6linuxA9:~/worksheet4/PRODUCTS$for f in *.txt; do echo $f;((sum = 0)); ((count = 0)); ((var = 0)); for num in `cat $f`; do sum=$(echo $sum+$num | bc); ((count++)); done ; mean=$(echo "scale=2; $sum/$count" | bc); echo "mean = " $mean; for num in `cat $f`; do var=$(echo $var+($num-$mean)^2 | bc); done ; variance=$(echo "scale=2; $var/$count" | bc); echo "variance = " $variance; done
+0439139597.txt
+mean =  1.51
+variance =  48.42
+043935806X.txt
+mean =  1.58
+variance =  88.25
+0525947647.txt
+mean =  11.53
+variance =  1178.32
+]0;yehia@f6linuxA9: ~/worksheet4/PRODUCTSyehia@f6linuxA9:~/worksheet4/PRODUCTS$ exit
+
+Script done on 2021-09-22 23:20:15+00:00 [COMMAND_EXIT_CODE="0"]
